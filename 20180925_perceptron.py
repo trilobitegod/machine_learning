@@ -54,6 +54,7 @@ class Perceptron(object):
 		按照感知器规则更新权重和偏置
 		'''
 		delta=label-output
+		print(input_vec,self.weights,self.bias,output)
 		self.weights=list(map(
 			lambda items: items[1]+rate*delta*items[0],
 			zip(input_vec,self.weights)))		
@@ -69,7 +70,7 @@ def get_training_dataset():
 	'''
 	基于and真值表构建训练数据
 	'''
-	input_vecs = [[1,1],[0,0],[1,0],[0,1]]
+	input_vecs = [[1,1],[1,0],[0,1],[0,0]]
 	labels = [1,0,0,0]
 	return input_vecs,labels
 	
@@ -81,7 +82,7 @@ def train_and_perceptron():
 	p = Perceptron(2,f)
 	# 训练，迭代10轮, 学习速率为0.1
 	input_vecs,labels = get_training_dataset()
-	p.train(input_vecs,labels,10,0.1)
+	p.train(input_vecs,labels,5,0.1)
 	#返回训练好的感知器
 	return p
 	
