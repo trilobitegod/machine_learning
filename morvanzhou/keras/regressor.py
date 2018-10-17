@@ -11,13 +11,13 @@ import matplotlib.pyplot as plt	# 可视化模块
 x = np.linspace(-1,1,200)
 np.random.shuffle(x)	# randomize data
 y = 0.5*x+2+np.random.normal(0,0.05,(200,))
-'''
+
 #plot data
 plt.scatter(x,y)
 plt.show()
-'''
+
 x_train,y_train = x[:160],y[:160]
-x_test,y_test = x[:160],y[:160]
+x_test,y_test = x[160:],y[160:]
 
 model = Sequential()
 model.add(Dense(output_dim = 1,input_dim = 1))
