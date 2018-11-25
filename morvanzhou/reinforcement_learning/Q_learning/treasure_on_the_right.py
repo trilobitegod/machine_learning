@@ -9,21 +9,23 @@ import numpy as np
 import pandas as pd
 import time
 
-np.random.seed(2)
+np.random.seed(2)   # reproducible
 
-N_STATES = 6
-ACTIONS = ['Left', 'Right']
-EPSILON = 0.9
-ALPHA = 0.2
-GAMMA = 0.9
-MAX_EPISODES = 13
-FRESH_TIME = 0.3
+N_STATES = 6    # the length of 1-dimensional world
+ACTIONS = ['Left', 'Right']     # available actions
+EPSILON = 0.9   # greedy police
+ALPHA = 0.2     # learning rate
+GAMMA = 0.9     # discounter factor
+MAX_EPISODES = 13   # max episodes
+FRESH_TIME = 0.1    # fresh time for one move
 
 def build_q_table(n_states, actions):
+    # q_table initial values
     table = pd.DataFrame(np.zeros((n_states, len(actions))), columns=actions,)
     return table
 
 def choose_action(state, q_table):
+    # how to choose an action
     state_actions = q_table.iloc[state,:]
     if (np.random.uniform() > EPSILON) or ((state_actions == 0).all()):
         action_name = np.random.choice(ACTIONS)
@@ -32,6 +34,7 @@ def choose_action(state, q_table):
     return action_name
 
 def get_env_feedback(S, A):
+    # how agent interact with environment
     if A == 'Right':
         if S == N_STATES - 2:
             S_ = 'terminal'
@@ -62,6 +65,7 @@ def update_env(S, episode, step_counter):
         time.sleep(FRESH_TIME)
         
 def rl():
+    # main part of RL loop
     q_table = build_q_table(N_STATES, ACTIONS)
     for episode in range(MAX_EPISODES):
         step_counter = 0
