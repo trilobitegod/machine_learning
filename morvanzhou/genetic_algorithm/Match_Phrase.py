@@ -9,14 +9,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-TARGET_PHRASE = 'You get it! Congratulations!'
-POP_SIZE = 1000
-CROSS_RATE = 0.4
-MUTATION_RATE = 0.01
+TARGET_PHRASE = 'You get it! Congratulations!'      # target DNA
+POP_SIZE = 1000         # population size
+CROSS_RATE = 0.4        # mating probability
+MUTATION_RATE = 0.01    # mutation probability
 N_GENERATIONS = 1000
 
 DNA_SIZE = len(TARGET_PHRASE)
-TARGET_ASCII = np.fromstring(TARGET_PHRASE, dtype=np.uint8)
+TARGET_ASCII = np.fromstring(TARGET_PHRASE, dtype=np.uint8)     # convert string to number
 ASCII_BOUND = [32, 126]
 
 
@@ -30,29 +30,29 @@ class GA(object):
         self.pop_size = pop_size
         self.pop = np.random.randint(*DNA_bound, size=(pop_size, DNA_size)).astype(np.int8)
         
-    def translateDNA(self, DNA):
+    def translateDNA(self, DNA):        # convert to readable string
         return DNA.tostring().decode('ascii')
     
-    def get_fitness(self):
+    def get_fitness(self):      # count how many character matches
         match_count = (self.pop == TARGET_ASCII).sum(axis=1)
         return match_count
     
     def select(self):
-        fitness = self.get_fitness() + 1e-4
+        fitness = self.get_fitness() + 1e-4     # to avoid all zero fitness
         idx = np.random.choice(np.arange(self.pop_size), size=self.pop_size, replace=True, p=fitness/fitness.sum())
         return self.pop[idx]
     
     def crossover(self, parent, pop):
         if np.random.rand() < self.cross_rate:
-            i_ = np.random.randint(0, self.pop_size, size=1)
-            cross_points = np.random.randint(0, 2, self.DNA_size).astype(np.bool)
-            parent[cross_points] = pop[i_, cross_points]
+            i_ = np.random.randint(0, self.pop_size, size=1)        # select another individual from pop
+            cross_points = np.random.randint(0, 2, self.DNA_size).astype(np.bool)       # choose crossover points
+            parent[cross_points] = pop[i_, cross_points]        # mating and produce one child
         return parent
     
     def mutate(self, child):
         for point in range(self.DNA_size):
             if np.random.rand() < self.mutate_rate:
-                child[point] = np.random.randint(*self.DNA_bound)
+                child[point] = np.random.randint(*self.DNA_bound)   # choose a random ASCII index
         return child
     
     def evolve(self):
