@@ -1,0 +1,4 @@
+#忽略数据集和网络参数文件 *.pth (大于100M)
+data/test1/
+data/train/
+checkpoints/*.pth
