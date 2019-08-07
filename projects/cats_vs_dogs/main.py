@@ -93,7 +93,7 @@ def train(**kwargs):
     for epoch in range(3, opt.max_epoch):
         loss_meter.reset()
         confusion_matrix.reset()
-        
+        '''
         for ii, (data, label) in tqdm(enumerate(train_dataloader),total=len(train_dataloader)):
             #confusion_matrix.reset()
             # train model
@@ -120,7 +120,7 @@ def train(**kwargs):
                 if os.path.exists(opt.debug_file):
                     import ipdb;
                     ipdb.set_trave()
-            
+            if ii==200: break
 
 
         # update learning: reduce learning rate when loss no longer decrease
@@ -132,6 +132,7 @@ def train(**kwargs):
         previous_loss = loss_meter.value()[0]
         dic = save_dict(opt.pars_path, dic, epoch=epoch, lr=lr, loss=loss_meter.value()[0], 
                       train_cm=confusion_matrix.value())
+	'''
         # validate and visualize
         val_cm, val_accuracy = val(model, val_dataloader)        
         dic = save_dict(opt.pars_path, dic, val_accuracy=val_accuracy, val_cm=val_cm.value())

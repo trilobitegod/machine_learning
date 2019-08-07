@@ -16,7 +16,7 @@ class DefaultConfig(object):
     
     train_data_root = './data/train/'
     test_data_root = './data/test1/'
-    load_model_path = './checkpoints/resnet34_20190806_134512.pth'
+    load_model_path = './checkpoints/resnet34_20190807_234551.pth'
     pars_path = './checkpoints/pars.json'
     batch_size = 32
     use_gpu = False
@@ -27,7 +27,7 @@ class DefaultConfig(object):
     result_file = 'result.csv'
     
     max_epoch = 10
-    lr = 0.1
+    lr = 0.1 * 0.95
     lr_decay = 0.95
     weight_decay = 1e-4
     
