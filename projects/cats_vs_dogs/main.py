@@ -29,7 +29,7 @@ def test(**kwargs):
     import ipdb;
     ipdb.set_trace()
     # configure model
-    model = getattr(models, opt.model)()
+    model = getattr(models, opt.model)().eval()
     
     if os.path.exists(opt.load_model_path):
         model.load(opt.load_model_path)
@@ -90,7 +90,7 @@ def train(**kwargs):
     #previous_loss = 1e100
     
     # train
-    for epoch in range(1, opt.max_epoch):
+    for epoch in range(3, opt.max_epoch):
         loss_meter.reset()
         confusion_matrix.reset()
         
