@@ -88,12 +88,11 @@ def train(**kwargs):
     loss_meter = meter.AverageValueMeter()
     confusion_matrix = meter.ConfusionMeter(2)
     #previous_loss = 1e100
-    
     # train
-    for epoch in range(3, opt.max_epoch):
+    for epoch in range(5, opt.max_epoch):
         loss_meter.reset()
         confusion_matrix.reset()
-        '''
+        
         for ii, (data, label) in tqdm(enumerate(train_dataloader),total=len(train_dataloader)):
             #confusion_matrix.reset()
             # train model
@@ -116,13 +115,12 @@ def train(**kwargs):
                 dic = save_dict(opt.pars_path, dic, loss_data=loss_meter.value()[0])
                 #loss_meter.reset()
                 vis.plot('loss', dic['loss_data'])
-                model.save()
+                name = model.save()
                 if os.path.exists(opt.debug_file):
                     import ipdb;
                     ipdb.set_trave()
-            if ii==200: break
-
-
+            
+        name = model.save()
         # update learning: reduce learning rate when loss no longer decrease
         if loss_meter.value()[0] > previous_loss:          
             lr = lr * opt.lr_decay
@@ -130,15 +128,15 @@ def train(**kwargs):
             for param_group in optimizer.param_groups:
                 param_group['lr'] = lr
         previous_loss = loss_meter.value()[0]
-        dic = save_dict(opt.pars_path, dic, epoch=epoch, lr=lr, loss=loss_meter.value()[0], 
+        dic = save_dict(opt.pars_path, dic, name=name, epoch=epoch, lr=lr, loss=loss_meter.value()[0], 
                       train_cm=confusion_matrix.value())
-	'''
+	
         # validate and visualize
         val_cm, val_accuracy = val(model, val_dataloader)        
         dic = save_dict(opt.pars_path, dic, val_accuracy=val_accuracy, val_cm=val_cm.value())
         
         vis.log(dic)
-        vis.plot('val_accuracy', dic['val_accuracy'])
+        #vis.plot('val_accuracy', dic['val_accuracy'])
 
                 
 def val(model,dataloader):

@@ -16,7 +16,7 @@ class DefaultConfig(object):
     
     train_data_root = './data/train/'
     test_data_root = './data/test1/'
-    load_model_path = './checkpoints/resnet34_20190807_234551.pth'
+    load_model_path = './checkpoints/resnet34_20190807_123952.pth'
     pars_path = './checkpoints/pars.json'
     batch_size = 32
     use_gpu = False

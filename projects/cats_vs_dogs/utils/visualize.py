@@ -65,14 +65,16 @@ class Visualizer(object):
         if 'epoch' in dic.keys():
             
             for i in range(len(dic['epoch'])):
-                info = "epoch:{epoch},lr:{lr},loss:{loss},train_cm:{train_cm},val_cm:{val_cm}".format(
-                            epoch = dic['epoch'][i],loss = dic['loss'][i],lr=dic['lr'][i],
-                            val_cm = str(dic['val_cm'][i]),train_cm=str(dic['train_cm'][i]))
-
+                info = "{name},epoch:{epoch},lr:{lr},loss:{loss},train_cm:{train_cm},val_cm:{val_cm}".format(
+                            name=dic['name'][i],epoch=dic['epoch'][i],loss=dic['loss'][i],lr=dic['lr'][i],
+                            val_cm=str(dic['val_cm'][i]),train_cm=str(dic['train_cm'][i]))
+                '''
                 self.log_text += ('[{time}] {info} <br>'.format(
                             time=time.strftime('%m%d_%H%M%S'),\
-                            info=info)) 
-        self.vis.text(self.log_text,win)   
+                            info=info))
+                '''
+                self.log_text += ('{info} <br>'.format(info=info))
+        self.vis.text(self.log_text,win)
 
     def __getattr__(self, name):
         return getattr(self.vis, name)
